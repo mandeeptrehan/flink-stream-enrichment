@@ -23,14 +23,14 @@ public class StreamEnrichmentJobLocal {
 		final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 		env.enableCheckpointing(30000);
 		
-		TextInputFormat inputFormat = new TextInputFormat(new Path("/Users/mbawa/Downloads/input"));
+		TextInputFormat inputFormat = new TextInputFormat(new Path("/Users/test/Downloads/input"));
 		inputFormat.setCharsetName("UTF-8");
 		
 		DataStreamSource<String> stream = env.readFile(
 				inputFormat, "/Users/test/Downloads/input", FileProcessingMode.PROCESS_CONTINUOUSLY, 60000l, BasicTypeInfo.STRING_TYPE_INFO);
 		
 		DataStreamSource<String> lookupStream = env.readFile(
-			    new TextInputFormat(new Path("/Users/mbawa/Downloads/lookup")), "/Users/mbawa/Downloads/lookup", FileProcessingMode.PROCESS_CONTINUOUSLY, 60000l, BasicTypeInfo.STRING_TYPE_INFO);
+			    new TextInputFormat(new Path("/Users/test/Downloads/lookup")), "/Users/test/Downloads/lookup", FileProcessingMode.PROCESS_CONTINUOUSLY, 60000l, BasicTypeInfo.STRING_TYPE_INFO);
 
 		DataStream<String> enrichedMeasurements = stream
 				.map(jsonString -> gson.fromJson(jsonString, JsonObject.class)).name("JsonString2ObjectMap")
